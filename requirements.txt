@@ -1,0 +1,2 @@
+# Optional dependencies will be listed here as the project grows.
+# Currently: standard library only.
