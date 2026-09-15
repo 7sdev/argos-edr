@@ -1,1 +1,10 @@
-{}
+{
+  "hashing": "sha256",
+  "watch": [
+    "/path/to/some/directory"
+  ],
+  "exclude": [
+    "*.pyc",
+    "__pycache__"
+  ]
+}
