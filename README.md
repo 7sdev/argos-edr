@@ -1,24 +1,25 @@
-# edrinfo — Endpoint Detection & Response (CLI, Linux)
+# argos-edr
 
-A small EDR written in Python to learn system security by doing. Linux-first,
-CLI-only for now.
+> Endpoint Detection & Response · CLI-first · Linux
 
-## Status
+[![Version](https://img.shields.io/badge/Version-0.1.0-35363a?style=flat-square)]()
+[![License](https://img.shields.io/badge/License-MIT-35363a?style=flat-square)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.12-35363a?style=flat-square)]()
+[![Platform](https://img.shields.io/badge/Platform-Linux-35363a?style=flat-square)]()
 
-- **Phase 0 — Foundation (in progress)**: CLI, config loading, logging, SQLite storage
-- Phase 1 — FIM (File Integrity Monitoring)
-- Phase 2 — Processes + Network (psutil)
-- Phase 3 — Detection rules + Response
-- Phase 4 — Persistence + Dashboard
+## Roadmap
 
-## Requirements
+- **Phase 0 — Foundation (in progress)** · CLI, config, logging, SQLite
+- Phase 1 — File Integrity Monitoring
+- Phase 2 — Process & network monitoring (psutil)
+- Phase 3 — Detection rules & response
+- Phase 4 — Persistence & dashboard
 
-- Python 3.12+
-- No external dependencies yet (standard library only)
-
-## Installation
+## Install
 
 ```bash
+git clone https://github.com/7sdev/argos-edr.git
+cd argos-edr
 python3 -m venv .venv && source .venv/bin/activate
 ```
 
@@ -31,7 +32,7 @@ python3 -m venv .venv && source .venv/bin/activate
 ## Tests
 
 ```bash
-pytest tests/
+pytest
 ```
 
 ## License
