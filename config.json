@@ -1,7 +1,7 @@
 {
   "hashing": "sha256",
   "watch": [
-    "/path/to/some/directory"
+    "/home/bash/Documents"
   ],
   "exclude": [
     "*.pyc",

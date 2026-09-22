@@ -9,10 +9,22 @@ import json
 import argos_core.config
 
 def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("config", nargs="?")
-    args = parser.parse_args()
+
+    """
+    Retrieves the arguments and subarguments; returns “args” 
+    """
     
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()    
+
+    config_parser = subparsers.add_parser("config")
+    config_parser.add_argument("--show", action="store_true")
+
+    parser.add_argument("-c","--config")
+    subparsers.add_parser("path")
+
+    args = parser.parse_args()
+
     return args
 
 
@@ -20,12 +32,12 @@ def main():
     args = get_args()
 
     try:
-        data = argos_core.config.load_config()
+        data = argos_core.config.load_config(args.path)
     except (json.JSONDecodeError, UnicodeDecodeError, RuntimeError):
         print("Invalid configuration; program terminated")
         sys.exit(1)
 
-    if(args.config == "config"):
+    if(args.show):
         for key, value in data.items():
             if(isinstance(value, list) == False):
                 print(f"[{key}] : {value}")
