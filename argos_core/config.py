@@ -4,14 +4,14 @@ import os
 
 def load_config(path_to_config):
 
-    if path_to_config == None:
-        current_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "config.json"))
+    if path_to_config is None:
+        path_to_config = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "config.json"))
 
     data = {}
 
-    if(os.path.exists(current_dir)):
+    if(os.path.exists(path_to_config)):
         try:
-            with open(current_dir) as f:
+            with open(path_to_config) as f:
                 data = json.load(f)
                 for key in data.keys():
                     if key == "watch":
@@ -24,6 +24,9 @@ def load_config(path_to_config):
             raise
         except UnicodeDecodeError as e:
             print(f"“config.json” does not contain any data encoded in UTF-8, UTF-16, or UTF-32.\nError : {e}")   
+            raise
+        except IsADirectoryError as e:
+            print(f"The path to config.json leads to a folder")
             raise
     else:
         print("“config.json” not found")
