@@ -7,9 +7,12 @@ import argparse
 import sys
 import json
 import argos_core.config
+import argos_core.logger
+
+logger = argos_core.logger.get_logger(__name__)
 
 def get_args():
-
+    logger.debug("Function call: get_args")
     """
     Retrieves the arguments and subarguments; returns “args” 
     """
@@ -31,8 +34,9 @@ def get_args():
 
 
 def main():
+    logger.debug("Function call: main")
     args = get_args()
-
+    logger.info(" [+] Argos EDR launch")
     try:
         data = argos_core.config.load_config(args.config)
     except (json.JSONDecodeError, UnicodeDecodeError, RuntimeError, IsADirectoryError):
@@ -47,9 +51,10 @@ def main():
                     continue
                 for values in value:
                         print(f"[{key}] : {values}")
+                        logger.info(f" [+] [{key}] : {values}")
     elif args.command == "scan" or args.command == "monitor":
         print(f"[+] {args.command} not implemented")
-
+        logger.error(f"[+] {args.command} not implemented")
 
     return 0
   

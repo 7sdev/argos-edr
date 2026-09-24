@@ -1,9 +1,11 @@
 import json
 import os
+import argos_core.logger
 
+logger = argos_core.logger.get_logger(__name__)
 
 def load_config(path_to_config):
-
+    logger.debug("Function call: load_config")
     if path_to_config is None:
         path_to_config = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "config.json"))
 
@@ -17,19 +19,25 @@ def load_config(path_to_config):
                     if key == "watch":
                         for path in data["watch"]:
                             if(os.path.exists(path) == False):
-                                raise RuntimeError(f"The directory to monitor (set to “watch” in config.json) cannot be found or is unreadable : [ {path} ]") 
+                                logger.error(f"The directory watch in config.json cannot be found or is unreadable : [ {path} ]") 
+                                raise RuntimeError(f"The directory to monitor (set to “watch” in config.json) cannot be found or is unreadable : [ {path} ]")
+                                
 
         except json.JSONDecodeError as e:
+            logger.error(f"The “config.json” files are not valid JSON documents.\nError : {e}")
             print(f"The “config.json” files are not valid JSON documents.\nError : {e}")
             raise
         except UnicodeDecodeError as e:
             print(f"“config.json” does not contain any data encoded in UTF-8, UTF-16, or UTF-32.\nError : {e}")   
+            logger.error(f"“config.json” does not contain any data encoded in UTF-8, UTF-16, or UTF-32.\nError : {e}")
             raise
         except IsADirectoryError as e:
             print(f"The path to config.json leads to a folder")
+            logger.error(f"The path to config.json leads to a folder")
             raise
     else:
         print("“config.json” not found")
+        logger.error("“config.json” not found")
     
     return data
     
