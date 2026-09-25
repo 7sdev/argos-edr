@@ -2,7 +2,7 @@ import json
 import os
 import argos_core.logger
 
-logger = argos_core.logger.get_logger(__name__)
+logger = argos_core.logger.get_logger()
 
 def load_config(path_to_config):
     logger.debug("Function call: load_config")
@@ -21,7 +21,6 @@ def load_config(path_to_config):
                             if(os.path.exists(path) == False):
                                 logger.error(f"The directory watch in config.json cannot be found or is unreadable : [ {path} ]") 
                                 raise RuntimeError(f"The directory to monitor (set to “watch” in config.json) cannot be found or is unreadable : [ {path} ]")
-                                
 
         except json.JSONDecodeError as e:
             logger.error(f"The “config.json” files are not valid JSON documents.\nError : {e}")

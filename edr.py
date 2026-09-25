@@ -6,13 +6,11 @@ argos-edr — Endpoint Detection & Response, CLI-first (Linux).
 import argparse
 import sys
 import json
-import argos_core.config
 import argos_core.logger
+import argos_core.config
 
-logger = argos_core.logger.get_logger(__name__)
 
 def get_args():
-    logger.debug("Function call: get_args")
     """
     Retrieves the arguments and subarguments; returns “args” 
     """
@@ -34,27 +32,26 @@ def get_args():
 
 
 def main():
+    args = get_args() # Calling "args" to retrieve arguments and subarguments
+
+    logger = argos_core.logger.level_logger(verbose=args.verbose) # We define and configure the logger so we can use it from anywhere afterward
+
     logger.debug("Function call: main")
-    args = get_args()
-    logger.info(" [+] Argos EDR launch")
     try:
-        data = argos_core.config.load_config(args.config)
-    except (json.JSONDecodeError, UnicodeDecodeError, RuntimeError, IsADirectoryError):
-        print("Invalid configuration; program terminated")
+        data = argos_core.config.load_config(args.config) # We read the data from the configuration file
+    except (json.JSONDecodeError, UnicodeDecodeError, RuntimeError, IsADirectoryError): 
+        logger.error("Invalid configuration; program terminated") # If an error occurs, the program terminates with code 1
         sys.exit(1)
 
-    
-    if args.command == "config" and args.show:
-            for key, value in data.items():
+    if args.command == "config" and args.show: 
+            for key, value in data.items(): # If the "config --show" argument is used, all JSON values and keys are listed
                 if(isinstance(value, list) == False):
-                    print(f"[{key}] : {value}")
+                    logger.info(f"[{key}] : {value}")
                     continue
                 for values in value:
-                        print(f"[{key}] : {values}")
-                        logger.info(f" [+] [{key}] : {values}")
+                        logger.info(f"[{key}] : {values}")
     elif args.command == "scan" or args.command == "monitor":
-        print(f"[+] {args.command} not implemented")
-        logger.error(f"[+] {args.command} not implemented")
+        logger.info(f"[+] {args.command} not implemented")
 
     return 0
   
